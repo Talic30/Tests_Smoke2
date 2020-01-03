@@ -10,28 +10,28 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.Select;
 
     public class SecondTest {
-        private WebDriver driver;
         private String baseUrl;
         private boolean acceptNextAlert = true;
         private StringBuffer verificationErrors = new StringBuffer();
+        public ChromeDriver driver;
 
+        @Before
+        public void setUp() throws Exception {
+            System.setProperty("webdriver.chrome.driver", "D:\\Google\\soft\\projects\\chromedriver.exe");
+            driver = new ChromeDriver();
 
+            // Выставляем таймаут 10 секунд на ожидание действия
+            driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
+
+            // Полный экран
+            driver.manage().window().maximize();
+        }
 
         @Test
         public void test1CheckEmployee() throws Exception {
 
-            // Инициализируем Chrome
-            System.setProperty("webdriver.chrome.driver", "D:\\Google\\soft\\projects\\chromedriver.exe");
-            ChromeDriver driver = new ChromeDriver();
-
-            // Разворачиваем в полный экран
-            driver.manage().window().maximize();
-
             // Открываем портал
             driver.get("http://bg-app02.ecor2.pp.newdv.ru:4092/#/");
-
-            // Выставляем таймаут 10 секунд на ожидание действия
-            driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
             // Вход
             driver.findElement(By.linkText("Войти")).click();
@@ -54,29 +54,31 @@ import org.openqa.selenium.support.ui.Select;
             driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Вход'])[3]/preceding::button[1]")).click();
 
             // Меню
-            //driver.findElement(By.linkText("Сотрудники")).click();
-            driver.findElement(By.xpath("//span[contains(@class,'lich_kab ng-scope') and contains(text(), 'Меню')]")).click();
-            driver.findElement(By.xpath("//a[contains(@href, '#/employee_catalog')]")).click();
+            driver.findElement(By.xpath("//*/text()[normalize-space(.)='Меню']/parent::*")).click();
 
-            // driver.findElement(By.xpath("//th/div")).click();
-            driver.findElement(By.xpath("//*/text()[normalize-space(.)='»']/parent::*")).click();
-
-            // Выбрать первый элемент в списке
-            //driver.findElement(By.className('')
-            //driver.findElement(By.xpath("//div[@id='content-container']/div/div/div/article/section/div[2]/table/tbody/tr[2]/td[8]/button")).click();
-            //driver.findElement(By.cssSelector("button.oko_bl_link")).click();
-            //driver.findElement(By.xpath("//td[8]/button")).click();
+            // Сотрудники
+            driver.findElement(By.xpath("//a[contains(text(),'Сотрудники')]")).click();
 
 
-            driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='«'])[1]/following::label[1]")).click();
-            driver.findElement(By.xpath("//*/text()[normalize-space(.)='Назад']/parent::*")).click();
-            driver.findElement(By.xpath("//div[5]/ul/li[2]/a")).click();
+            // Проверить сортировку и пагинацию
+            //driver.wait(10000);
+            driver.findElement(By.xpath("//div[@id='content-container']/div/div/div/article/section/div[2]/table/thead/tr/th/div")).click();
+            driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Объекты'])[1]/preceding::a[1]")).click();
+
+            // Открываем первого из списка
+            driver.get("http://bg-app02.ecor2.pp.newdv.ru:4092/#/employee/5adfd29d-0494-4437-879a-af955a874f3e/view");
+
+            // Переходим назад
+            driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='«'])[1]/following::span[1]")).click();
+
+            // Выход
+            driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='✓'])[1]/following::a[3]")).click();
             driver.findElement(By.xpath("//*/text()[normalize-space(.)='Выйти']/parent::*")).click();
         }
 
         @After
         public void tearDown() throws Exception {
-            driver.quit();
+            // driver.quit();
             String verificationErrorString = verificationErrors.toString();
             if (!"".equals(verificationErrorString)) {
                 fail(verificationErrorString);
