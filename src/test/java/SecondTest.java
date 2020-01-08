@@ -17,11 +17,14 @@ import org.openqa.selenium.support.ui.Select;
 
         @Before
         public void setUp() throws Exception {
-            System.setProperty("webdriver.chrome.driver", "D:\\Google\\soft\\projects\\chromedriver.exe");
+            System.setProperty("webdriver.chrome.driver", "src/main/resources/drivers/chromedriver.exe");
             driver = new ChromeDriver();
 
             // Выставляем таймаут 10 секунд на ожидание действия
             driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
+
+            // Выставляем разрешение 1920х1080 *добавить тест мобильной версии
+            driver.manage().window().setSize(new Dimension(1920,1080));
 
             // Полный экран
             driver.manage().window().maximize();
@@ -78,7 +81,7 @@ import org.openqa.selenium.support.ui.Select;
 
         @After
         public void tearDown() throws Exception {
-            // driver.quit();
+            driver.quit();
             String verificationErrorString = verificationErrors.toString();
             if (!"".equals(verificationErrorString)) {
                 fail(verificationErrorString);
