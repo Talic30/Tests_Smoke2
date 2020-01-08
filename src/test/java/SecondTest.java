@@ -8,8 +8,9 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
-    public class SecondTest {
+public class SecondTest {
         private String baseUrl;
         private boolean acceptNextAlert = true;
         private StringBuffer verificationErrors = new StringBuffer();
@@ -19,6 +20,7 @@ import org.openqa.selenium.support.ui.Select;
         public void setUp() throws Exception {
             System.setProperty("webdriver.chrome.driver", "src/main/resources/drivers/chromedriver.exe");
             driver = new ChromeDriver();
+
 
             // Выставляем таймаут 10 секунд на ожидание действия
             driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
@@ -35,53 +37,69 @@ import org.openqa.selenium.support.ui.Select;
 
             // Открываем портал
             driver.get("http://bg-app02.ecor2.pp.newdv.ru:4092/#/");
+            System.out.println("- Портал открыт");
 
             // Вход
             driver.findElement(By.linkText("Войти")).click();
+            System.out.println("- Вход произведён");
 
 
             // Вход для городских служб
             driver.findElement(By.xpath("//*/text()[normalize-space(.)='Вход для городских служб']/parent::*")).click();
+            System.out.println("- Вход для городских служб произведён");
 
             // Ввод логина
             driver.findElement(By.xpath("(//input[@type='text'])[2]")).click();
             driver.findElement(By.xpath("(//input[@type='text'])[2]")).clear();
             driver.findElement(By.xpath("(//input[@type='text'])[2]")).sendKeys("test3");
+            System.out.println("- Ввод логина произведён");
 
             // Ввод пароля
             driver.findElement(By.xpath("(//input[@type='text'])[2]")).click();
             driver.findElement(By.xpath("(//input[@type='password'])[2]")).clear();
             driver.findElement(By.xpath("(//input[@type='password'])[2]")).sendKeys("test3");
+            System.out.println("- Ввод пароля произведён");
 
-            // Кнопка Вход
+            // Кнопка Входа
             driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Вход'])[3]/preceding::button[1]")).click();
+            System.out.println("- Нажатие на кнопку входа произведено");
 
             // Меню
             driver.findElement(By.xpath("//*/text()[normalize-space(.)='Меню']/parent::*")).click();
+            System.out.println("- Нажатие на кнопку меню произведено");
 
             // Сотрудники
             driver.findElement(By.xpath("//a[contains(text(),'Сотрудники')]")).click();
+            System.out.println("- Нажатие на кнопку меню -> сотрудники произведено");
+
+            // Поиск кнопок
+            // Сотрудники
+
 
 
             // Проверить сортировку и пагинацию
-            //driver.wait(10000);
             driver.findElement(By.xpath("//div[@id='content-container']/div/div/div/article/section/div[2]/table/thead/tr/th/div")).click();
             driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Объекты'])[1]/preceding::a[1]")).click();
+            System.out.println("- Проверка сортировки и пагинации успещно завершена");
 
             // Открываем первого из списка
             driver.get("http://bg-app02.ecor2.pp.newdv.ru:4092/#/employee/5adfd29d-0494-4437-879a-af955a874f3e/view");
+            System.out.println("- Карточка сотрудника успешно открыта");
 
             // Переходим назад
             driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='«'])[1]/following::span[1]")).click();
+            System.out.println("- Переход назад осуществлён");
 
             // Выход
             driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='✓'])[1]/following::a[3]")).click();
             driver.findElement(By.xpath("//*/text()[normalize-space(.)='Выйти']/parent::*")).click();
+            System.out.println("- Браузер закрыт");
         }
 
         @After
         public void tearDown() throws Exception {
             driver.quit();
+            System.out.println("- Тест упешно пройден");
             String verificationErrorString = verificationErrors.toString();
             if (!"".equals(verificationErrorString)) {
                 fail(verificationErrorString);
