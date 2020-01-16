@@ -10,7 +10,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class SecondTest {
+public class Employees {
         private String baseUrl;
         private boolean acceptNextAlert = true;
         private StringBuffer verificationErrors = new StringBuffer();
@@ -78,7 +78,10 @@ public class SecondTest {
 
 
             // Проверить сортировку и пагинацию
-            driver.findElement(By.xpath("//div[@id='content-container']/div/div/div/article/section/div[2]/table/thead/tr/th/div")).click();
+
+ //old           driver.findElement(By.xpath("//div[@id='content-container']/div/div/div/article/section/div[2]/table/thead/tr/th/div")).click();
+            Thread.sleep(1000);
+            driver.findElement(By.xpath("//div[@id='content-container']/div/div/div/article/section/div[2]/table/thead/tr/th/div"));
             driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Объекты'])[1]/preceding::a[1]")).click();
             System.out.println("- Проверка сортировки и пагинации успещно завершена");
 
